@@ -1,5 +1,7 @@
+let lol = []
 function loadd(name){
   loadSprite(name, "sprites/"+name+".png")
+  lol.push("Loading sprite "+name)
 }
 
 function LoadAssets(){
@@ -8,8 +10,16 @@ function LoadAssets(){
     loadd(Pngs[i])
   }
   
-  loadSound("menubg", "sounds/menubg.mp3");
+  loadSound("menubg", "sounds/bgmusic.mp3", {
+    loop: true,
+    volume: 100
+  });
 
+  
+
+  
+
+    
   loadSprite("potatoe", "sprites/potatoe-sheet.png", {
     sliceX: 5,
     anims: {

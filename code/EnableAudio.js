@@ -1,5 +1,10 @@
+import * as pf from "./pfuncs.js"
+
 function LoadEnableAudio(){
   scene("EnableAudio", ()=>{
+    pf.inspectt()
+
+    // Making this super cool Console effect....
     const __menut = add([
       text("Click anywhere ", {
         size: 20

@@ -3458,14 +3458,30 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     return a.canvas.focus(), Le;
   }, "default");
 
-  // code/menu.js
+  // code/pfuncs.js
+  function inspectt() {
+    onKeyPress("#", () => {
+      if (debug.inspect) {
+        debug.inspect = false;
+      } else {
+        debug.inspect = true;
+      }
+    });
+  }
+  __name(inspectt, "inspectt");
   function RandNum(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
   __name(RandNum, "RandNum");
+
+  // code/menu.js
   function LoadMenuScene() {
     scene("menu", () => {
-      main_default();
+      inspectt();
+      const music = play("menubg", {
+        volume: 0.02,
+        loop: true
+      });
       play("menubg");
       for (let c = 0; c < 300; c++) {
         let sizeofstar = RandNum(2, 8);
@@ -3489,8 +3505,10 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   var menu_default = LoadMenuScene;
 
   // code/spritemanager.js
+  var lol = [];
   function loadd(name) {
     loadSprite(name, "sprites/" + name + ".png");
+    lol.push("Loading sprite " + name);
   }
   __name(loadd, "loadd");
   function LoadAssets() {
@@ -3498,7 +3516,10 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     for (let i = 0; i < Pngs.length; i++) {
       loadd(Pngs[i]);
     }
-    loadSound("menubg", "sounds/menubg.mp3");
+    loadSound("menubg", "sounds/bgmusic.mp3", {
+      loop: true,
+      volume: 100
+    });
     loadSprite("potatoe", "sprites/potatoe-sheet.png", {
       sliceX: 5,
       anims: {
@@ -3540,6 +3561,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   // code/EnableAudio.js
   function LoadEnableAudio() {
     scene("EnableAudio", () => {
+      inspectt();
       const __menut = add([
         text("Click anywhere ", {
           size: 20
@@ -3579,17 +3601,6 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   yo({
     background: [0, 0, 0]
   });
-  function inspectt() {
-    onKeyPress("#", () => {
-      if (debug.inspect) {
-        debug.inspect = false;
-      } else {
-        debug.inspect = true;
-      }
-    });
-  }
-  __name(inspectt, "inspectt");
-  var main_default = inspectt;
   CheckWindowSize_default();
   spritemanager_default();
   menu_default();

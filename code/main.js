@@ -19,18 +19,6 @@ kaboom({
   background: [0, 0, 0]
 })
 
-// Puplic variables ----------------------------------------------------------------------
-function inspectt(){
-  onKeyPress("#", ()=>{
-    if(debug.inspect){
-      debug.inspect = false
-    }else{
-      debug.inspect = true
-    }
-  })
-}
-
-export default inspectt
 
 // Defining scene content ----------------------------------------------------------------
 LoadCheck()
