@@ -13,7 +13,9 @@ function LoadMenuScene() {
 
 
     // Play the bg music
-    play("menubg")
+    play("menubg", {
+      loop: true
+    })
     
     // Adding the Stars in menu
     for (let c = 0; c < 300; c++) {
@@ -27,12 +29,11 @@ function LoadMenuScene() {
     
     // Adding text
     add([
-      text("Hellow!", {
-        size: 40
-      }),
-      pos(width()/2, 20),
+      sprite("logo"),
+      pos(width()/2, 130),
       area(),
-      anchor("center")
+      anchor("center"),
+      scale(4, 4)
     ])
   })
 }

@@ -5,7 +5,7 @@ function loadd(name){
 }
 
 function LoadAssets(){
-  const Pngs = ["bean", "moon", "mars"]
+  const Pngs = ["bean", "moon", "mars", "logo"]
   for(let i =0; i < Pngs.length; i++){
     loadd(Pngs[i])
   }

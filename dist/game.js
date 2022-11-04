@@ -3482,7 +3482,9 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         volume: 0.02,
         loop: true
       });
-      play("menubg");
+      play("menubg", {
+        loop: true
+      });
       for (let c = 0; c < 300; c++) {
         let sizeofstar = RandNum(2, 8);
         add([
@@ -3492,12 +3494,11 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         ]);
       }
       add([
-        text("Hellow!", {
-          size: 40
-        }),
-        pos(width() / 2, 20),
+        sprite("logo"),
+        pos(width() / 2, 130),
         area(),
-        anchor("center")
+        anchor("center"),
+        scale(4, 4)
       ]);
     });
   }
@@ -3512,7 +3513,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   }
   __name(loadd, "loadd");
   function LoadAssets() {
-    const Pngs = ["bean", "moon", "mars"];
+    const Pngs = ["bean", "moon", "mars", "logo"];
     for (let i = 0; i < Pngs.length; i++) {
       loadd(Pngs[i]);
     }
