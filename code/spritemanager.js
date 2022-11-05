@@ -5,7 +5,7 @@ function loadd(name){
 }
 
 function LoadAssets(){
-  const Pngs = ["bean", "moon", "mars", "logo"]
+  const Pngs = ["bean", "moon", "mars", "logo", "tlc"]
   for(let i =0; i < Pngs.length; i++){
     loadd(Pngs[i])
   }
@@ -27,8 +27,8 @@ function LoadAssets(){
       }
     }
   })
-  
   loadSound("hit", "sounds/hit.mp3");
+  loadSound("faf", "sounds/faf.mp3");
   loadSprite("potatoe", "sprites/potatoe-sheet.png", {
     sliceX: 5,
     anims: {
@@ -46,6 +46,19 @@ function LoadAssets(){
       },
     },
   })
+
+  loadFont("up", "fonts/upheavtt.ttf")
+  loadFont("arc", "fonts/arc.TTF")
+  loadFont("joy", "fonts/joystix.ttf")
+  /*loadSpriteAtlas("sprites/emote-atlas.png", {
+    "hero": {
+        x: 128,
+        y: 68,
+        width: 144,
+        height: 28,
+        sliceX: 9,
+    },
+  })*/
 }
 
 export default LoadAssets

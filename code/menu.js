@@ -7,13 +7,10 @@ function LoadMenuScene() {
   scene("menu", ()=>{
     pf.inspectt()
     const music = play("menubg", {
-      volume: 0.02,
+      volume: 0.9,
       loop: true
     })
-    // Play the bg music
-    play("menubg", {
-      loop: true
-    })
+    music.play()
     // Adding the Stars in menu
     for (let c = 0; c < 300; c++) {
       let sizeofstar = pf.RandNum(2, 8)
@@ -24,7 +21,8 @@ function LoadMenuScene() {
       ])
     }
     
-    // Adding text           |||| SECRET!!! |||
+    // Adding text
+    let clicked = 0
     const logobtn = add([
       sprite("logo"),
       pos(width()/2, 130),
@@ -32,8 +30,19 @@ function LoadMenuScene() {
       anchor("center"),
       scale(4, 4)
     ])
+    logobtn.onClick(()=>{
+      clicked += 1
+      if(clicked > 13) {
+        add([
+          sprite("tlc"),
+          pos(width()/2-20, 280),
+          anchor("center"),
+          color(rgb(89, 89, 89))
+        ])
+      }
+    })
     const btnbg = add([
-      rect(320, 50, {
+      rect(340, 50, {
         radius: 10,
       }),
       outline(rgb(255, 255, 255)),
@@ -41,16 +50,20 @@ function LoadMenuScene() {
       anchor("center"),
       area(),
       color(rgb(4, 122, 0)),
-      scale(1.3, 1.3)
+      scale(1.3, 1.3),
+      z(99)
     ])
-    
+    btnbg.onClick(()=>{
+      music.stop()
+      go("tutorial")
+    })
     const btntext = add([
       text("How to Play"),
       pos(width()/2, height()/2),
       anchor("center"),
-      area(),
       color(rgb(255, 255, 255)),
-      scale(1.3, 1.3)
+      scale(1.3, 1.3),
+      z(100)
     ])
 
     const what = add([
@@ -58,15 +71,17 @@ function LoadMenuScene() {
       pos(btnbg.pos.x + 120, height()/2-20),
       anchor("center"),
       color(255, 255, 255),
-      rotate(40)
+      rotate(40),
+      z(100)
     ])
 
     const what2 = add([
       text("?"),
-      pos(btnbg.pos.x + 120, height()/2-40),
+      pos(btnbg.pos.x + 135, height()/2-40),
       anchor("center"),
       color(255, 255, 255),
-      rotate(20)
+      rotate(20),
+      z(100)
     ])
 
     const what3 = add([
@@ -74,7 +89,8 @@ function LoadMenuScene() {
       pos(btnbg.pos.x + 116, height()/2-50),
       anchor("center"),
       color(255, 255, 255),
-      rotate(9)
+      rotate(9),
+      z(100)
     ])
     
     let bg2hover = false
@@ -100,7 +116,7 @@ function LoadMenuScene() {
 	  })
 
     const btnbg2 = add([
-      rect(320, 50, {
+      rect(340, 50, {
         radius: 10,
       }),
       outline(rgb(255, 255, 255)),
@@ -108,16 +124,17 @@ function LoadMenuScene() {
       anchor("center"),
       area(),
       color(rgb(163, 125, 21)),
-      scale(1.3, 1.3)
+      scale(1.3, 1.3),
+      z(99)
     ])
     
     const btntext2 = add([
       text("Play!"),
       pos(width()/2, height()/2+100),
       anchor("center"),
-      area(),
       color(rgb(255, 255, 255)),
-      scale(1.3, 1.3)
+      scale(1.3, 1.3),
+      z(100)
     ])
     btnbg2.onUpdate(() => {
 	  	if (btnbg2.isHovering()) {

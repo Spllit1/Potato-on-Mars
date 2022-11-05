@@ -18,7 +18,8 @@ import LoadEnableAudio from "./EnableAudio.js"
 
 // initialize context --------------------------------------------------------------------
 kaboom({
-  background: [0, 0, 0]
+  background: [0, 0, 0],
+  font: "joy"
 })
 
 

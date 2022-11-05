@@ -1,7 +1,9 @@
 const ws = require("ws");
 
 module.exports = (server) => {
-
+  console.clear()
+  console.log("\x1b[1m\x1b[32m     Loading...")
+  console.log("\x1b[1m\x1b[32mHave fun developing!\x1b[0m\x1b[1m")
 	const socket = new ws.Server({ server: server, path: "/multiplayer" });
 
 	socket.on("connection", (conn) => {

@@ -1368,8 +1368,8 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       if (n instanceof O) {
         let y = $e(new R(Kt(C.ctx))), L = u((P) => {
           let q = $e(P, t);
-          for (let z in q)
-            y[z] = q[z];
+          for (let z2 in q)
+            y[z2] = q[z2];
         }, "doPlay");
         return n.onLoad(L), y;
       } else if (n === null) {
@@ -1761,17 +1761,17 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
             t.tex.update(S.cursor.x, S.cursor.y, Ge), t.map[k] = new N(S.cursor.x, S.cursor.y, Ie, t.size), S.cursor.x += Ie;
           }
       }
-      let o = e.size || t.size, l = p((_b = e.scale) != null ? _b : 1).scale(o / t.size), d = (_c = e.lineSpacing) != null ? _c : 0, m = (_d = e.letterSpacing) != null ? _d : 0, w = 0, b = 0, y = 0, L = [], P = [], q = 0, z = null, Ue = null;
+      let o = e.size || t.size, l = p((_b = e.scale) != null ? _b : 1).scale(o / t.size), d = (_c = e.lineSpacing) != null ? _c : 0, m = (_d = e.letterSpacing) != null ? _d : 0, w = 0, b = 0, y = 0, L = [], P = [], q = 0, z2 = null, Ue = null;
       for (; q < h.length; ) {
         let _ = h[q];
         if (_ === `
 `)
-          y += o + d, L.push({ width: w - m, chars: P }), z = null, Ue = null, w = 0, P = [];
+          y += o + d, L.push({ width: w - m, chars: P }), z2 = null, Ue = null, w = 0, P = [];
         else {
           let S = t.map[_];
           if (S) {
             let k = S.w * l.x;
-            e.width && w + k > e.width && (y += o + d, z != null && (q -= P.length - z, _ = h[q], S = t.map[_], k = S.w * l.x, P = P.slice(0, z - 1), w = Ue), z = null, Ue = null, L.push({ width: w - m, chars: P }), w = 0, P = []), P.push({ tex: t.tex, width: S.w, height: S.h, quad: new N(S.x / t.tex.width, S.y / t.tex.height, S.w / t.tex.width, S.h / t.tex.height), ch: _, pos: p(w, y), opacity: (_e2 = e.opacity) != null ? _e2 : 1, color: (_f = e.color) != null ? _f : E.WHITE, scale: p(l), angle: 0 }), _ === " " && (z = P.length, Ue = w), w += k, b = Math.max(b, w), w += m;
+            e.width && w + k > e.width && (y += o + d, z2 != null && (q -= P.length - z2, _ = h[q], S = t.map[_], k = S.w * l.x, P = P.slice(0, z2 - 1), w = Ue), z2 = null, Ue = null, L.push({ width: w - m, chars: P }), w = 0, P = []), P.push({ tex: t.tex, width: S.w, height: S.h, quad: new N(S.x / t.tex.width, S.y / t.tex.height, S.w / t.tex.width, S.h / t.tex.height), ch: _, pos: p(w, y), opacity: (_e2 = e.opacity) != null ? _e2 : 1, color: (_f = e.color) != null ? _f : E.WHITE, scale: p(l), angle: 0 }), _ === " " && (z2 = P.length, Ue = w), w += k, b = Math.max(b, w), w += m;
           }
         }
         q++;
@@ -3239,13 +3239,13 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         if (s.push(n), o.pos && (n = n.translate(o.pos)), o.scale && (n = n.scale(o.scale)), o.angle && (n = n.rotateZ(o.angle)), o.transform = n.clone(), o.c("area") && !o.paused) {
           let l = o, m = l.worldArea().bbox(), w = Math.floor(m.pos.x / t), b = Math.floor(m.pos.y / t), y = Math.ceil((m.pos.x + m.width) / t), L = Math.ceil((m.pos.y + m.height) / t), P = /* @__PURE__ */ new Set();
           for (let q = w; q <= y; q++)
-            for (let z = b; z <= L; z++)
+            for (let z2 = b; z2 <= L; z2++)
               if (!e[q])
-                e[q] = {}, e[q][z] = [l];
-              else if (!e[q][z])
-                e[q][z] = [l];
+                e[q] = {}, e[q][z2] = [l];
+              else if (!e[q][z2])
+                e[q][z2] = [l];
               else {
-                let Ue = e[q][z];
+                let Ue = e[q][z2];
                 for (let J of Ue) {
                   if (!J.exists() || P.has(J.id))
                     continue;
@@ -3459,13 +3459,76 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   }, "default");
 
   // code/pfuncs.js
+  function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+  __name(delay, "delay");
+  function displayDialogue(lines, onDialogueEnd = () => {
+  }, controlKey) {
+    return __async(this, null, function* () {
+      const dialogueBoxContainer = add([]);
+      dialogueBoxContainer.add([
+        rect(width() - 700, 130, {
+          radius: 10
+        }),
+        area(),
+        anchor("center"),
+        pos(center().x, height() - 200)
+      ]);
+      dialogueBoxContainer.add([
+        text("", {
+          size: 20,
+          lineSpacing: 4,
+          font: "joy",
+          width: width() - 900
+        }),
+        pos(width() / 2, height() - 200),
+        color(0, 0, 0),
+        anchor("center")
+      ]);
+      let currentLineIndex = 0;
+      let lineIsFullyDisplayed = false;
+      const lineAsCharArray = lines[currentLineIndex].split("");
+      for (const [i, char] of lineAsCharArray.entries()) {
+        yield delay(isKeyDown(controlKey) || isMouseDown() ? 0 : 50);
+        dialogueBoxContainer.children[1].text += char;
+        if (i >= lineAsCharArray.length - 1) {
+          lineIsFullyDisplayed = true;
+        }
+      }
+      function handleDialogue() {
+        return __async(this, null, function* () {
+          yield delay(100);
+          if (lineIsFullyDisplayed) {
+            dialogueBoxContainer.children[1].text = "";
+            lineIsFullyDisplayed = false;
+            currentLineIndex++;
+            if (currentLineIndex >= lines.length) {
+              dialogueBoxContainer.destroy();
+              yield onDialogueEnd();
+              return;
+            }
+            const lineAsCharArray2 = lines[currentLineIndex].split("");
+            for (const [i, char] of lineAsCharArray2.entries()) {
+              yield delay(isKeyDown(controlKey) || isMouseDown() ? 0 : 50);
+              dialogueBoxContainer.children[1].text += char;
+              if (i >= lineAsCharArray2.length - 1) {
+                lineIsFullyDisplayed = true;
+              }
+            }
+          }
+        });
+      }
+      __name(handleDialogue, "handleDialogue");
+      onKeyDown(controlKey, () => __async(this, null, function* () {
+        yield handleDialogue();
+      }));
+    });
+  }
+  __name(displayDialogue, "displayDialogue");
   function inspectt() {
     onKeyPress("#", () => {
-      if (debug.inspect) {
-        debug.inspect = false;
-      } else {
-        debug.inspect = true;
-      }
+      debug.inspect = !debug.inspect;
     });
   }
   __name(inspectt, "inspectt");
@@ -3479,12 +3542,10 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     scene("menu", () => {
       inspectt();
       const music = play("menubg", {
-        volume: 0.02,
+        volume: 0.9,
         loop: true
       });
-      play("menubg", {
-        loop: true
-      });
+      music.play();
       for (let c = 0; c < 300; c++) {
         let sizeofstar = RandNum(2, 8);
         add([
@@ -3493,15 +3554,27 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           color(rgb(255, 255, 255))
         ]);
       }
-      add([
+      let clicked = 0;
+      const logobtn = add([
         sprite("logo"),
         pos(width() / 2, 130),
         area(),
         anchor("center"),
         scale(4, 4)
       ]);
+      logobtn.onClick(() => {
+        clicked += 1;
+        if (clicked > 13) {
+          add([
+            sprite("tlc"),
+            pos(width() / 2 - 20, 280),
+            anchor("center"),
+            color(rgb(89, 89, 89))
+          ]);
+        }
+      });
       const btnbg = add([
-        rect(320, 50, {
+        rect(340, 50, {
           radius: 10
         }),
         outline(rgb(255, 255, 255)),
@@ -3509,36 +3582,44 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         anchor("center"),
         area(),
         color(rgb(4, 122, 0)),
-        scale(1.3, 1.3)
+        scale(1.3, 1.3),
+        z(99)
       ]);
+      btnbg.onClick(() => {
+        music.stop();
+        go("tutorial");
+      });
       const btntext = add([
         text("How to Play"),
         pos(width() / 2, height() / 2),
         anchor("center"),
-        area(),
         color(rgb(255, 255, 255)),
-        scale(1.3, 1.3)
+        scale(1.3, 1.3),
+        z(100)
       ]);
       const what = add([
         text("?"),
         pos(btnbg.pos.x + 120, height() / 2 - 20),
         anchor("center"),
         color(255, 255, 255),
-        rotate(40)
+        rotate(40),
+        z(100)
       ]);
       const what2 = add([
         text("?"),
-        pos(btnbg.pos.x + 120, height() / 2 - 40),
+        pos(btnbg.pos.x + 135, height() / 2 - 40),
         anchor("center"),
         color(255, 255, 255),
-        rotate(20)
+        rotate(20),
+        z(100)
       ]);
       const what3 = add([
         text("?"),
         pos(btnbg.pos.x + 116, height() / 2 - 50),
         anchor("center"),
         color(255, 255, 255),
-        rotate(9)
+        rotate(9),
+        z(100)
       ]);
       let bg2hover = false;
       let bg1hover = false;
@@ -3561,7 +3642,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         }
       });
       const btnbg2 = add([
-        rect(320, 50, {
+        rect(340, 50, {
           radius: 10
         }),
         outline(rgb(255, 255, 255)),
@@ -3569,15 +3650,16 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         anchor("center"),
         area(),
         color(rgb(163, 125, 21)),
-        scale(1.3, 1.3)
+        scale(1.3, 1.3),
+        z(99)
       ]);
       const btntext2 = add([
         text("Play!"),
         pos(width() / 2, height() / 2 + 100),
         anchor("center"),
-        area(),
         color(rgb(255, 255, 255)),
-        scale(1.3, 1.3)
+        scale(1.3, 1.3),
+        z(100)
       ]);
       btnbg2.onUpdate(() => {
         if (btnbg2.isHovering()) {
@@ -3627,7 +3709,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   }
   __name(loadd, "loadd");
   function LoadAssets() {
-    const Pngs = ["bean", "moon", "mars", "logo"];
+    const Pngs = ["bean", "moon", "mars", "logo", "tlc"];
     for (let i = 0; i < Pngs.length; i++) {
       loadd(Pngs[i]);
     }
@@ -3649,6 +3731,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       }
     });
     loadSound("hit", "sounds/hit.mp3");
+    loadSound("faf", "sounds/faf.mp3");
     loadSprite("potatoe", "sprites/potatoe-sheet.png", {
       sliceX: 5,
       anims: {
@@ -3666,17 +3749,46 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         }
       }
     });
+    loadFont("up", "fonts/upheavtt.ttf");
+    loadFont("arc", "fonts/arc.TTF");
+    loadFont("joy", "fonts/joystix.ttf");
   }
   __name(LoadAssets, "LoadAssets");
   var spritemanager_default = LoadAssets;
 
   // code/tutorial.js
   function LoadTutorial() {
-    scene("Tutorial", () => {
-      add([
-        text("Youre in the tutorial!")
-      ]);
-    });
+    scene("tutorial", () => __async(this, null, function* () {
+      add([]);
+      const herebgmusic = play("faf", {
+        loop: true,
+        volume: 0.2
+      });
+      inspectt();
+      const lines = [
+        "Welcome to the Tutorial! Press C to continue...",
+        "Do it again :D",
+        "Fun, right?",
+        "Hehe...",
+        "Do it one more time!",
+        "Okay... that's enough.",
+        "Stop!",
+        "HEY! Stop scrolling!",
+        "Okay... that's now enough.",
+        "...",
+        "Okay, lemme just tell you about the game.",
+        "It's about you, the potato.",
+        "Your goal is to take over mars!",
+        "But... that's not easy.",
+        "You have to do lots of task's",
+        "The controls are W/Space, A, S, D",
+        "Now, have fun playing! :D"
+      ];
+      yield displayDialogue(lines, () => {
+        herebgmusic.stop();
+        go("menu");
+      }, "c");
+    }));
   }
   __name(LoadTutorial, "LoadTutorial");
   var tutorial_default = LoadTutorial;
@@ -3739,7 +3851,8 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
 
   // code/main.js
   yo({
-    background: [0, 0, 0]
+    background: [0, 0, 0],
+    font: "joy"
   });
   CheckWindowSize_default();
   spritemanager_default();
