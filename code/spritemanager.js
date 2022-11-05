@@ -14,12 +14,21 @@ function LoadAssets(){
     loop: true,
     volume: 100
   });
-
+  loadSprite("sbtn", "sprites/stopbtn-Sheet.png", {
+    sliceX: 2,
+    anims: {
+      "stop": {
+        from: 0,
+        to: 0
+      },
+      "play": {
+        from: 1,
+        to: 1
+      }
+    }
+  })
   
-
-  
-
-    
+  loadSound("hit", "sounds/hit.mp3");
   loadSprite("potatoe", "sprites/potatoe-sheet.png", {
     sliceX: 5,
     anims: {

@@ -579,11 +579,11 @@
   __name(Xn, "Xn");
   u(Xn, "sat");
   var ft = 1.70158;
-  var dt = ft * 1.525;
+  var dt2 = ft * 1.525;
   var Ln = ft + 1;
   var In = 2 * Math.PI / 3;
   var Gn = 2 * Math.PI / 4.5;
-  var fe = { linear: (i) => i, easeInSine: (i) => 1 - Math.cos(i * Math.PI / 2), easeOutSine: (i) => Math.sin(i * Math.PI / 2), easeInOutSine: (i) => -(Math.cos(Math.PI * i) - 1) / 2, easeInQuad: (i) => i * i, easeOutQuad: (i) => 1 - (1 - i) * (1 - i), easeInOutQuad: (i) => i < 0.5 ? 2 * i * i : 1 - Math.pow(-2 * i + 2, 2) / 2, easeInCubic: (i) => i * i * i, easeOutCubic: (i) => 1 - Math.pow(1 - i, 3), easeInOutCubic: (i) => i < 0.5 ? 4 * i * i * i : 1 - Math.pow(-2 * i + 2, 3) / 2, easeInQuart: (i) => i * i * i * i, easeOutQuart: (i) => 1 - Math.pow(1 - i, 4), easeInOutQuart: (i) => i < 0.5 ? 8 * i * i * i * i : 1 - Math.pow(-2 * i + 2, 4) / 2, easeInQuint: (i) => i * i * i * i * i, easeOutQuint: (i) => 1 - Math.pow(1 - i, 5), easeInOutQuint: (i) => i < 0.5 ? 16 * i * i * i * i * i : 1 - Math.pow(-2 * i + 2, 5) / 2, easeInExpo: (i) => i === 0 ? 0 : Math.pow(2, 10 * i - 10), easeOutExpo: (i) => i === 1 ? 1 : 1 - Math.pow(2, -10 * i), easeInOutExpo: (i) => i === 0 ? 0 : i === 1 ? 1 : i < 0.5 ? Math.pow(2, 20 * i - 10) / 2 : (2 - Math.pow(2, -20 * i + 10)) / 2, easeInCirc: (i) => 1 - Math.sqrt(1 - Math.pow(i, 2)), easeOutCirc: (i) => Math.sqrt(1 - Math.pow(i - 1, 2)), easeInOutCirc: (i) => i < 0.5 ? (1 - Math.sqrt(1 - Math.pow(2 * i, 2))) / 2 : (Math.sqrt(1 - Math.pow(-2 * i + 2, 2)) + 1) / 2, easeInBack: (i) => Ln * i * i * i - ft * i * i, easeOutBack: (i) => 1 + Ln * Math.pow(i - 1, 3) + ft * Math.pow(i - 1, 2), easeInOutBack: (i) => i < 0.5 ? Math.pow(2 * i, 2) * ((dt + 1) * 2 * i - dt) / 2 : (Math.pow(2 * i - 2, 2) * ((dt + 1) * (i * 2 - 2) + dt) + 2) / 2, easeInElastic: (i) => i === 0 ? 0 : i === 1 ? 1 : -Math.pow(2, 10 * i - 10) * Math.sin((i * 10 - 10.75) * In), easeOutElastic: (i) => i === 0 ? 0 : i === 1 ? 1 : Math.pow(2, -10 * i) * Math.sin((i * 10 - 0.75) * In) + 1, easeInOutElastic: (i) => i === 0 ? 0 : i === 1 ? 1 : i < 0.5 ? -(Math.pow(2, 20 * i - 10) * Math.sin((20 * i - 11.125) * Gn)) / 2 : Math.pow(2, -20 * i + 10) * Math.sin((20 * i - 11.125) * Gn) / 2 + 1, easeInBounce: (i) => 1 - fe.easeOutBounce(1 - i), easeOutBounce: (i) => i < 1 / 2.75 ? 7.5625 * i * i : i < 2 / 2.75 ? 7.5625 * (i -= 1.5 / 2.75) * i + 0.75 : i < 2.5 / 2.75 ? 7.5625 * (i -= 2.25 / 2.75) * i + 0.9375 : 7.5625 * (i -= 2.625 / 2.75) * i + 0.984375, easeInOutBounce: (i) => i < 0.5 ? (1 - fe.easeOutBounce(1 - 2 * i)) / 2 : (1 + fe.easeOutBounce(2 * i - 1)) / 2 };
+  var fe = { linear: (i) => i, easeInSine: (i) => 1 - Math.cos(i * Math.PI / 2), easeOutSine: (i) => Math.sin(i * Math.PI / 2), easeInOutSine: (i) => -(Math.cos(Math.PI * i) - 1) / 2, easeInQuad: (i) => i * i, easeOutQuad: (i) => 1 - (1 - i) * (1 - i), easeInOutQuad: (i) => i < 0.5 ? 2 * i * i : 1 - Math.pow(-2 * i + 2, 2) / 2, easeInCubic: (i) => i * i * i, easeOutCubic: (i) => 1 - Math.pow(1 - i, 3), easeInOutCubic: (i) => i < 0.5 ? 4 * i * i * i : 1 - Math.pow(-2 * i + 2, 3) / 2, easeInQuart: (i) => i * i * i * i, easeOutQuart: (i) => 1 - Math.pow(1 - i, 4), easeInOutQuart: (i) => i < 0.5 ? 8 * i * i * i * i : 1 - Math.pow(-2 * i + 2, 4) / 2, easeInQuint: (i) => i * i * i * i * i, easeOutQuint: (i) => 1 - Math.pow(1 - i, 5), easeInOutQuint: (i) => i < 0.5 ? 16 * i * i * i * i * i : 1 - Math.pow(-2 * i + 2, 5) / 2, easeInExpo: (i) => i === 0 ? 0 : Math.pow(2, 10 * i - 10), easeOutExpo: (i) => i === 1 ? 1 : 1 - Math.pow(2, -10 * i), easeInOutExpo: (i) => i === 0 ? 0 : i === 1 ? 1 : i < 0.5 ? Math.pow(2, 20 * i - 10) / 2 : (2 - Math.pow(2, -20 * i + 10)) / 2, easeInCirc: (i) => 1 - Math.sqrt(1 - Math.pow(i, 2)), easeOutCirc: (i) => Math.sqrt(1 - Math.pow(i - 1, 2)), easeInOutCirc: (i) => i < 0.5 ? (1 - Math.sqrt(1 - Math.pow(2 * i, 2))) / 2 : (Math.sqrt(1 - Math.pow(-2 * i + 2, 2)) + 1) / 2, easeInBack: (i) => Ln * i * i * i - ft * i * i, easeOutBack: (i) => 1 + Ln * Math.pow(i - 1, 3) + ft * Math.pow(i - 1, 2), easeInOutBack: (i) => i < 0.5 ? Math.pow(2 * i, 2) * ((dt2 + 1) * 2 * i - dt2) / 2 : (Math.pow(2 * i - 2, 2) * ((dt2 + 1) * (i * 2 - 2) + dt2) + 2) / 2, easeInElastic: (i) => i === 0 ? 0 : i === 1 ? 1 : -Math.pow(2, 10 * i - 10) * Math.sin((i * 10 - 10.75) * In), easeOutElastic: (i) => i === 0 ? 0 : i === 1 ? 1 : Math.pow(2, -10 * i) * Math.sin((i * 10 - 0.75) * In) + 1, easeInOutElastic: (i) => i === 0 ? 0 : i === 1 ? 1 : i < 0.5 ? -(Math.pow(2, 20 * i - 10) * Math.sin((20 * i - 11.125) * Gn)) / 2 : Math.pow(2, -20 * i + 10) * Math.sin((20 * i - 11.125) * Gn) / 2 + 1, easeInBounce: (i) => 1 - fe.easeOutBounce(1 - i), easeOutBounce: (i) => i < 1 / 2.75 ? 7.5625 * i * i : i < 2 / 2.75 ? 7.5625 * (i -= 1.5 / 2.75) * i + 0.75 : i < 2.5 / 2.75 ? 7.5625 * (i -= 2.25 / 2.75) * i + 0.9375 : 7.5625 * (i -= 2.625 / 2.75) * i + 0.984375, easeInOutBounce: (i) => i < 0.5 ? (1 - fe.easeOutBounce(1 - 2 * i)) / 2 : (1 + fe.easeOutBounce(2 * i - 1)) / 2 };
   var xe = /* @__PURE__ */ __name(class extends Map {
     constructor(...r) {
       super(...r);
@@ -3500,6 +3500,120 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         anchor("center"),
         scale(4, 4)
       ]);
+      const btnbg = add([
+        rect(320, 50, {
+          radius: 10
+        }),
+        outline(rgb(255, 255, 255)),
+        pos(width() / 2, height() / 2),
+        anchor("center"),
+        area(),
+        color(rgb(4, 122, 0)),
+        scale(1.3, 1.3)
+      ]);
+      const btntext = add([
+        text("How to Play"),
+        pos(width() / 2, height() / 2),
+        anchor("center"),
+        area(),
+        color(rgb(255, 255, 255)),
+        scale(1.3, 1.3)
+      ]);
+      const what = add([
+        text("?"),
+        pos(btnbg.pos.x + 120, height() / 2 - 20),
+        anchor("center"),
+        color(255, 255, 255),
+        rotate(40)
+      ]);
+      const what2 = add([
+        text("?"),
+        pos(btnbg.pos.x + 120, height() / 2 - 40),
+        anchor("center"),
+        color(255, 255, 255),
+        rotate(20)
+      ]);
+      const what3 = add([
+        text("?"),
+        pos(btnbg.pos.x + 116, height() / 2 - 50),
+        anchor("center"),
+        color(255, 255, 255),
+        rotate(9)
+      ]);
+      let bg2hover = false;
+      let bg1hover = false;
+      btnbg.onUpdate(() => {
+        if (btnbg.isHovering()) {
+          if (!bg1hover) {
+            play("hit");
+          }
+          bg1hover = true;
+          what.pos.x = btnbg.pos.x + 225;
+          what2.pos.x = btnbg.pos.x + 205;
+          what3.pos.x = btnbg.pos.x + 185;
+          btnbg.color = rgb(2, 64, 0);
+        } else {
+          bg1hover = false;
+          btnbg.color = rgb(4, 122, 0);
+          what.pos.x = width() + width();
+          what2.pos.x = width() + width();
+          what3.pos.x = width() + width();
+        }
+      });
+      const btnbg2 = add([
+        rect(320, 50, {
+          radius: 10
+        }),
+        outline(rgb(255, 255, 255)),
+        pos(width() / 2, height() / 2 + 100),
+        anchor("center"),
+        area(),
+        color(rgb(163, 125, 21)),
+        scale(1.3, 1.3)
+      ]);
+      const btntext2 = add([
+        text("Play!"),
+        pos(width() / 2, height() / 2 + 100),
+        anchor("center"),
+        area(),
+        color(rgb(255, 255, 255)),
+        scale(1.3, 1.3)
+      ]);
+      btnbg2.onUpdate(() => {
+        if (btnbg2.isHovering()) {
+          if (!bg2hover) {
+            play("hit");
+          }
+          bg2hover = true;
+          const t = time() * 5;
+          btnbg2.color = rgb(
+            wave(0, 255, t),
+            wave(0, 255, t + 2),
+            wave(0, 255, t + 4)
+          );
+        } else {
+          bg2hover = false;
+          btnbg2.color = rgb(163, 125, 21);
+        }
+      });
+      const m1 = add([
+        sprite("mars"),
+        pos(width() - 200, height() / 2 - 250),
+        scale(3, 3),
+        anchor("center"),
+        rotate(90)
+      ]);
+      const m = add([
+        sprite("moon"),
+        pos(200, height() / 2 + 250),
+        scale(3, 3),
+        anchor("center"),
+        rotate(0)
+      ]);
+      onUpdate(() => {
+        m1.angle += 0.5 * dt();
+        m.angle += 1 * dt();
+      });
     });
   }
   __name(LoadMenuScene, "LoadMenuScene");
@@ -3521,6 +3635,20 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       loop: true,
       volume: 100
     });
+    loadSprite("sbtn", "sprites/stopbtn-Sheet.png", {
+      sliceX: 2,
+      anims: {
+        "stop": {
+          from: 0,
+          to: 0
+        },
+        "play": {
+          from: 1,
+          to: 1
+        }
+      }
+    });
+    loadSound("hit", "sounds/hit.mp3");
     loadSprite("potatoe", "sprites/potatoe-sheet.png", {
       sliceX: 5,
       anims: {
@@ -3541,6 +3669,17 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   }
   __name(LoadAssets, "LoadAssets");
   var spritemanager_default = LoadAssets;
+
+  // code/tutorial.js
+  function LoadTutorial() {
+    scene("Tutorial", () => {
+      add([
+        text("Youre in the tutorial!")
+      ]);
+    });
+  }
+  __name(LoadTutorial, "LoadTutorial");
+  var tutorial_default = LoadTutorial;
 
   // code/CheckWindowSize.js
   function LoadCheck() {
@@ -3604,6 +3743,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   });
   CheckWindowSize_default();
   spritemanager_default();
+  tutorial_default();
   menu_default();
   EnableAudio_default();
   go("Check");

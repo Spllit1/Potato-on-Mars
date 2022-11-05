@@ -1,5 +1,3 @@
-
-
 function LoadCheck(){
   scene("Check", ()=>{
     if (window.innerWidth < 850) {

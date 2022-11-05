@@ -4,13 +4,15 @@
 //              but pls dont say you maded it. Anyways,
 //                    what are you doing here?
 //
-
+//
+//              P.S.: This game has lots if secrets!
 
 
 // Importing modules ---------------------------------------------------------------------
 import kaboom from "kaboom"
 import LoadMenuScene from "./menu.js"
 import LoadAssets from "./spritemanager.js"
+import LoadTutorial from "./tutorial.js"
 import LoadCheck from "./CheckWindowSize.js"
 import LoadEnableAudio from "./EnableAudio.js"
 
@@ -23,6 +25,7 @@ kaboom({
 // Defining scene content ----------------------------------------------------------------
 LoadCheck()
 LoadAssets()
+LoadTutorial()
 LoadMenuScene()
 LoadEnableAudio()
 
@@ -30,7 +33,3 @@ LoadEnableAudio()
 
 // Starting the game ---------------------------------------------------------------------
 go("Check")
-
-
-
-
