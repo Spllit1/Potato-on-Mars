@@ -3875,7 +3875,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
               pos(falli.pos.x + 190, falli.pos.y),
               anchor("center"),
               color(rgb(2, 255, 255)),
-              z(101),
+              opacity(0),
               area(),
               "Hitbox1"
             ]);
@@ -3917,6 +3917,9 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       onUpdate(() => {
         if (player.pos.x > width()) {
           player.pos.x = width() - 50;
+        }
+        if (player.pos.x < 0) {
+          player.pos.x = 50;
         }
       });
     }));

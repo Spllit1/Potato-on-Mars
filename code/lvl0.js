@@ -115,7 +115,7 @@ function LoadLvl0(){
             pos(falli.pos.x+190, falli.pos.y),
             anchor("center"),
             color(rgb(2, 255, 255)),
-            z(101),
+            opacity(0),
             area(),
             "Hitbox1"
           ])
