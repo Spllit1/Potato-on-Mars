@@ -2,9 +2,9 @@
 
 
 
-// Before you think i maded this awesome scrolling dialoge,
-// i didnt. its from NassimSoftware (https://replit.com/@NassimSoftware/Dialogue-scrolling-in-Kaboom?v=1)
-// Thanks Nassim!
+// Before you think i maded this awesome scrolling dialoge, i didnt.
+// i just added some styling. its from NassimSoftware
+// (https://replit.com/@NassimSoftware/Dialogue-scrolling-in-Kaboom?v=1) Thanks Nassim!
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -17,8 +17,10 @@ export async function displayDialogue(lines, onDialogueEnd = () => {}, controlKe
       radius: 10
     }),
     area(),
+    color(rgb(219, 219, 219)),
+    outline(2),
     anchor("center"),
-    pos(center().x, height()-200)
+    pos(center().x, height()-100)
   ])
   dialogueBoxContainer.add([
     text("", {
@@ -27,7 +29,7 @@ export async function displayDialogue(lines, onDialogueEnd = () => {}, controlKe
       font: "joy",
       width: width()-900
     }),
-    pos(width()/2, height()-200),
+    pos(width()/2, height()-100),
     color(0,0,0),
     anchor("center")
   ])

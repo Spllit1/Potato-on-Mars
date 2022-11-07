@@ -12,6 +12,7 @@
 import kaboom from "kaboom"
 import LoadMenuScene from "./menu.js"
 import LoadAssets from "./spritemanager.js"
+import LoadLvl0 from "./lvl0.js"
 import LoadTutorial from "./tutorial.js"
 import LoadCheck from "./CheckWindowSize.js"
 import LoadEnableAudio from "./EnableAudio.js"
@@ -26,6 +27,7 @@ kaboom({
 // Defining scene content ----------------------------------------------------------------
 LoadCheck()
 LoadAssets()
+LoadLvl0()
 LoadTutorial()
 LoadMenuScene()
 LoadEnableAudio()
@@ -33,4 +35,4 @@ LoadEnableAudio()
 
 
 // Starting the game ---------------------------------------------------------------------
-go("Check")
+go("lvl0")

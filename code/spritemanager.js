@@ -5,10 +5,34 @@ function loadd(name){
 }
 
 function LoadAssets(){
-  const Pngs = ["bean", "moon", "mars", "logo", "tlc"]
+  const Pngs = ["bean", "moon", "mars", "logo", "tlc", "sign", "sun"]
   for(let i =0; i < Pngs.length; i++){
     loadd(Pngs[i])
   }
+
+  loadSprite("rocket", "sprites/rocket-Sheet.png", {
+    sliceX: 8,
+    anims: {
+      "idle": {
+        from: 0,
+        to: 0
+      },
+      "fire3": {
+        from: 1,
+        to: 3
+      },
+      "fire2": {
+        from: 4,
+        to: 5
+      },
+      "fire1": {
+        from: 6,
+        to: 7
+      }
+    }
+  })
+
+
   
   loadSound("menubg", "sounds/bgmusic.mp3", {
     loop: true,
@@ -29,18 +53,18 @@ function LoadAssets(){
   })
   loadSound("hit", "sounds/hit.mp3");
   loadSound("faf", "sounds/faf.mp3");
-  loadSprite("potatoe", "sprites/potatoe-sheet.png", {
-    sliceX: 5,
+  loadSprite("potato", "sprites/potatoe-sheet.png", {
+    sliceX: 6,
     anims: {
-      run: {
+      "run": {
         from: 1,
         to: 2
       },
-      idle: {
+      "idle": {
         from: 0,
         to: 0
       },
-      blink: {
+      "blink": {
         from: 3,
         to: 4
       },

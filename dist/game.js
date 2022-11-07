@@ -3472,8 +3472,10 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           radius: 10
         }),
         area(),
+        color(rgb(219, 219, 219)),
+        outline(2),
         anchor("center"),
-        pos(center().x, height() - 200)
+        pos(center().x, height() - 100)
       ]);
       dialogueBoxContainer.add([
         text("", {
@@ -3482,7 +3484,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           font: "joy",
           width: width() - 900
         }),
-        pos(width() / 2, height() - 200),
+        pos(width() / 2, height() - 100),
         color(0, 0, 0),
         anchor("center")
       ]);
@@ -3709,10 +3711,31 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   }
   __name(loadd, "loadd");
   function LoadAssets() {
-    const Pngs = ["bean", "moon", "mars", "logo", "tlc"];
+    const Pngs = ["bean", "moon", "mars", "logo", "tlc", "sign", "sun"];
     for (let i = 0; i < Pngs.length; i++) {
       loadd(Pngs[i]);
     }
+    loadSprite("rocket", "sprites/rocket-Sheet.png", {
+      sliceX: 8,
+      anims: {
+        "idle": {
+          from: 0,
+          to: 0
+        },
+        "fire3": {
+          from: 1,
+          to: 3
+        },
+        "fire2": {
+          from: 4,
+          to: 5
+        },
+        "fire1": {
+          from: 6,
+          to: 7
+        }
+      }
+    });
     loadSound("menubg", "sounds/bgmusic.mp3", {
       loop: true,
       volume: 100
@@ -3732,18 +3755,18 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     });
     loadSound("hit", "sounds/hit.mp3");
     loadSound("faf", "sounds/faf.mp3");
-    loadSprite("potatoe", "sprites/potatoe-sheet.png", {
-      sliceX: 5,
+    loadSprite("potato", "sprites/potatoe-sheet.png", {
+      sliceX: 6,
       anims: {
-        run: {
+        "run": {
           from: 1,
           to: 2
         },
-        idle: {
+        "idle": {
           from: 0,
           to: 0
         },
-        blink: {
+        "blink": {
           from: 3,
           to: 4
         }
@@ -3756,6 +3779,146 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   __name(LoadAssets, "LoadAssets");
   var spritemanager_default = LoadAssets;
 
+  // code/lvl0.js
+  function LoadLvl0() {
+    scene("lvl0", () => __async(this, null, function* () {
+      const pSPEED = 300;
+      inspectt();
+      gravity(1800);
+      const player = add([
+        sprite("potato"),
+        pos(80, height() - 250),
+        area(),
+        scale(2, 2),
+        body(),
+        z(100)
+      ]);
+      onKeyDown("d", () => {
+        player.flipX(true);
+        player.move(pSPEED, 0);
+      });
+      onKeyDown("space", () => {
+        if (player.isGrounded()) {
+          player.jump(pSPEED * 3);
+        }
+      });
+      onKeyDown("w", () => {
+        if (player.isGrounded()) {
+          player.jump(pSPEED * 3);
+        }
+      });
+      onKeyDown("a", () => {
+        player.flipX(false);
+        player.move(-pSPEED, 0);
+      });
+      if (isKeyPressed("a")) {
+        player.play("run", {
+          loop: true
+        });
+      }
+      add([
+        rect(width() + 1e3, width() + 1e3),
+        pos(width() / 2, height() / 2),
+        anchor("center"),
+        color(rgb(0, 87, 227))
+      ]);
+      add([
+        rect(width() + 1e3, 200),
+        pos(width() / 2, height() - 100),
+        color(rgb(7, 140, 51)),
+        anchor("center"),
+        area(),
+        outline(4),
+        body({ isStatic: true }),
+        "ground"
+      ]);
+      const sunnysun = add([
+        sprite("sun"),
+        pos(100, 100),
+        anchor("center"),
+        scale(3.2, 3.2),
+        rotate(-4)
+      ]);
+      sunnysun.onUpdate(() => {
+        sunnysun.angle += 2e-4;
+      });
+      add([
+        sprite("sign"),
+        scale(1.5, 1.5),
+        pos(450, height() - 250),
+        anchor("center"),
+        area(),
+        "Sign"
+      ]);
+      const lines = [
+        "For some reason, you want a trip to mars, so here is our rocket!",
+        "What do you think about it? C'mon, it looks beutiful!",
+        "...",
+        "...",
+        "...",
+        "Im sure you love it! I love it too!",
+        "So first we have too... start the rocket!",
+        "Wait... where is it?"
+      ];
+      let spawned = false;
+      player.onCollide("Sign", () => __async(this, null, function* () {
+        yield displayDialogue(lines, () => {
+          if (!spawned) {
+            const falli = add([
+              sprite("rocket"),
+              pos(width() - 300, -height() + 300),
+              scale(2, 2),
+              area()
+            ]);
+            const hitboxrect = add([
+              rect(40, 80),
+              pos(falli.pos.x + 190, falli.pos.y),
+              anchor("center"),
+              color(rgb(2, 255, 255)),
+              z(101),
+              area(),
+              "Hitbox1"
+            ]);
+            hitboxrect.onUpdate(() => {
+              hitboxrect.pos.y = falli.pos.y + 270;
+              hitboxrect.pos.x = falli.pos.x + 190;
+            });
+            player.onCollide("Hitbox1", () => {
+              debug.log("hello!");
+            });
+            tween(falli.pos.y, height() - 620, 6, (val) => falli.pos.y = val, easings.easeOutSine);
+            let playing1 = false;
+            let playing2 = false;
+            let playing3 = false;
+            falli.onUpdate(() => {
+              if (falli.pos.y < height() / 2 - 700) {
+                if (!playing1) {
+                  falli.play("fire2", {
+                    loop: true
+                  });
+                  playing1 = true;
+                }
+              } else if (falli.pos.y < height() / 2 + 50) {
+                if (!playing3) {
+                  falli.play("fire1", {
+                    loop: true
+                  });
+                  wait(4.6, () => {
+                    falli.play("idle");
+                  });
+                  playing3 = true;
+                }
+              }
+            });
+            spawned = true;
+          }
+        }, "c");
+      }));
+    }));
+  }
+  __name(LoadLvl0, "LoadLvl0");
+  var lvl0_default = LoadLvl0;
+
   // code/tutorial.js
   function LoadTutorial() {
     scene("tutorial", () => __async(this, null, function* () {
@@ -3767,22 +3930,21 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       inspectt();
       const lines = [
         "Welcome to the Tutorial! Press C to continue...",
-        "Do it again :D",
-        "Fun, right?",
-        "Hehe...",
-        "Do it one more time!",
-        "Okay... that's enough.",
-        "Stop!",
-        "HEY! Stop scrolling!",
-        "Okay... that's now enough.",
-        "...",
-        "Okay, lemme just tell you about the game.",
-        "It's about you, the potato.",
-        "Your goal is to take over mars!",
-        "But... that's not easy.",
-        "You have to do lots of task's",
-        "The controls are W/Space, A, S, D",
-        "Now, have fun playing! :D"
+        "Do it again :D                                 ",
+        "Fun, right? Hehe..                             ",
+        "Do it one more time!                           ",
+        "Okay... that's enough.                         ",
+        "Stop!                                          ",
+        "HEY! Stop scrolling!                           ",
+        "Okay... that's now enough.                     ",
+        "...                                            ",
+        "Okay, lemme just tell you about the game.      ",
+        "It's about you, the potato.                    ",
+        "Your goal is to take over mars!                ",
+        "But... that's not easy.                        ",
+        "You have to do lots of task's                  ",
+        "The controls are W/Space, A, S, D              ",
+        "Now, have fun playing! :D                      "
       ];
       yield displayDialogue(lines, () => {
         herebgmusic.stop();
@@ -3814,6 +3976,11 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   function LoadEnableAudio() {
     scene("EnableAudio", () => {
       inspectt();
+      add([
+        text("This game sadly does NOT support Firefox."),
+        pos(width() / 2, 30),
+        anchor("center")
+      ]);
       const __menut = add([
         text("Click anywhere ", {
           size: 20
@@ -3856,9 +4023,10 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   });
   CheckWindowSize_default();
   spritemanager_default();
+  lvl0_default();
   tutorial_default();
   menu_default();
   EnableAudio_default();
-  go("Check");
+  go("lvl0");
 })();
 //# sourceMappingURL=game.js.map

@@ -3,7 +3,11 @@ import * as pf from "./pfuncs.js"
 function LoadEnableAudio(){
   scene("EnableAudio", ()=>{
     pf.inspectt()
-
+    add([
+      text("This game sadly does NOT support Firefox."),
+      pos(width()/2, 30),
+      anchor("center")
+    ])
     // Making this super cool Console effect....
     const __menut = add([
       text("Click anywhere ", {
@@ -31,8 +35,6 @@ function LoadEnableAudio(){
       }
     }
     doUnderScore()
-    
-    
     onClick(() => {
       go("menu")
     })
