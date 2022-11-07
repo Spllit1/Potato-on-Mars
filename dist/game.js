@@ -3884,7 +3884,11 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
               hitboxrect.pos.x = falli.pos.x + 190;
             });
             player.onCollide("Hitbox1", () => {
-              debug.log("hello!");
+              player.opacity = 0;
+              falli.play("fire3");
+              onUpdate(() => {
+                camPos(falli.pos.x - 100, falli.pos.y + 290);
+              });
             });
             tween(falli.pos.y, height() - 620, 6, (val) => falli.pos.y = val, easings.easeOutSine);
             let playing1 = false;

@@ -123,9 +123,9 @@ function LoadLvl0(){
             hitboxrect.pos.y = falli.pos.y+270
             hitboxrect.pos.x = falli.pos.x+190
           })
-
+          // checking if our rocket can start or not...
           player.onCollide("Hitbox1", ()=>{
-            debug.log("hello!")
+            go("lvl1")
           })
 
           // here we animate the rocket :D
