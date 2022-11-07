@@ -158,6 +158,15 @@ function LoadLvl0(){
         }
       }, 'c')
     }) 
+
+    onUpdate(()=>{
+      if(player.pos.x > width()){
+        player.pos.x = width()-50
+      }
+      if(player.pos.x < 0){
+        player.pos.x = 50
+      }
+    })
   })
 }
 

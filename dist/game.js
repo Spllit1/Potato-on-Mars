@@ -3914,6 +3914,11 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           }
         }, "c");
       }));
+      onUpdate(() => {
+        if (player.pos.x > width()) {
+          player.pos.x = width() - 50;
+        }
+      });
     }));
   }
   __name(LoadLvl0, "LoadLvl0");
