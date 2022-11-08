@@ -3513,6 +3513,9 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
             const lineAsCharArray2 = lines[currentLineIndex].split("");
             for (const [i, char] of lineAsCharArray2.entries()) {
               yield delay(isKeyDown(controlKey) || isMouseDown() ? 0 : 50);
+              play("score", {
+                volume: RandNum(0.2, 0.3)
+              });
               dialogueBoxContainer.children[1].text += char;
               if (i >= lineAsCharArray2.length - 1) {
                 lineIsFullyDisplayed = true;
@@ -3663,6 +3666,10 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         scale(1.3, 1.3),
         z(100)
       ]);
+      btnbg2.onClick(() => {
+        music.stop();
+        go("lvl0");
+      });
       btnbg2.onUpdate(() => {
         if (btnbg2.isHovering()) {
           if (!bg2hover) {
@@ -3712,9 +3719,13 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   __name(loadd, "loadd");
   function LoadAssets() {
     const Pngs = ["bean", "moon", "mars", "logo", "tlc", "sign", "sun"];
+    loadSound("lvl1bg", "sounds/lvl1bg.mp3");
+    loadSound("lvl0bg", "sounds/lvl0bg.mp3");
+    loadSound("landing", "sounds/landing.mp3");
     for (let i = 0; i < Pngs.length; i++) {
       loadd(Pngs[i]);
     }
+    loadSound("score", "sounds/score.mp3");
     loadSprite("rocket", "sprites/rocket-Sheet.png", {
       sliceX: 8,
       anims: {
@@ -3782,6 +3793,11 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   // code/lvl0.js
   function LoadLvl0() {
     scene("lvl0", () => __async(this, null, function* () {
+      const backmsc = play("lvl0bg", {
+        volume: 0.2,
+        loop: true
+      });
+      backmsc.play();
       const pSPEED = 300;
       inspectt();
       gravity(1800);
@@ -3800,11 +3816,13 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       onKeyDown("space", () => {
         if (player.isGrounded()) {
           player.jump(pSPEED * 3);
+          play("score");
         }
       });
       onKeyDown("w", () => {
         if (player.isGrounded()) {
           player.jump(pSPEED * 3);
+          play("score");
         }
       });
       onKeyDown("a", () => {
@@ -3862,6 +3880,13 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       ];
       let spawned = false;
       player.onCollide("Sign", () => __async(this, null, function* () {
+        wait(30, () => {
+          add([
+            text("Hint: Try to jump in the rocket! (Space)"),
+            pos(width() / 2, 200),
+            anchor("center")
+          ]);
+        });
         yield displayDialogue(lines, () => {
           if (!spawned) {
             const falli = add([
@@ -3884,11 +3909,11 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
               hitboxrect.pos.x = falli.pos.x + 190;
             });
             player.onCollide("Hitbox1", () => {
-              player.opacity = 0;
-              falli.play("fire3");
-              onUpdate(() => {
-                camPos(falli.pos.x - 100, falli.pos.y + 290);
-              });
+              backmsc.stop();
+              go("lvl1intro");
+            });
+            wait(1, () => {
+              play("landing");
             });
             tween(falli.pos.y, height() - 620, 6, (val) => falli.pos.y = val, easings.easeOutSine);
             let playing1 = false;
@@ -3931,6 +3956,88 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   __name(LoadLvl0, "LoadLvl0");
   var lvl0_default = LoadLvl0;
 
+  // code/lvl1.js
+  function Loadlvl1() {
+    scene("lvl1intro", () => __async(this, null, function* () {
+      inspectt();
+      const musik = play("lvl1bg", {
+        loop: true,
+        volume: 0.3
+      });
+      for (let c = 0; c < 300; c++) {
+        let sizeofstar = RandNum(2, 8);
+        const e = add([
+          rect(sizeofstar, sizeofstar),
+          pos(RandNum(0, width()), RandNum(0, height())),
+          color(rgb(255, 255, 255))
+        ]);
+        e.onUpdate(() => {
+          e.pos.y += 0.2;
+          if (e.pos.y > height()) {
+            e.pos.y = -30;
+            e.pos.x = RandNum(0, width());
+          }
+        });
+      }
+      const wigrock = add([
+        sprite("rocket"),
+        pos(width() / 2, height() / 2 - 100),
+        anchor("center"),
+        scale(1.4, 1.4)
+      ]);
+      wigrock.onUpdate(() => {
+        wigrock.pos.x += RandNum(-10, 10);
+        wigrock.pos.y += RandNum(-10, 10);
+        wait(1, () => {
+          wigrock.pos.x = width() / 2;
+          wigrock.pos.y = height() / 2 - 100;
+        });
+      });
+      wigrock.play("fire3", {
+        loop: true
+      });
+      const lines = [
+        "Hello..?",
+        "Are you awake?! I waited 2 hours for you to wake up!",
+        "As you jumped into the rocket, you suddendly got unconscious and fell to the ground!",
+        "Then you accidently clicked a big red button and then... we started! D:",
+        "And now, we are... in the middle of nowhere."
+      ];
+      yield displayDialogue(lines, () => {
+        const gotobtnrect = add([
+          rect(450, 100, {
+            radius: 10
+          }),
+          pos(width() / 2, height() - 100),
+          area(),
+          anchor("center"),
+          color(rgb(43, 43, 43))
+        ]);
+        const gotobtntext = add([
+          text("Take a look"),
+          pos(width() / 2, height() - 100),
+          anchor("center"),
+          color(rgb(255, 255, 255))
+        ]);
+        let smt = false;
+        gotobtnrect.onUpdate(() => {
+          if (gotobtnrect.isHovering()) {
+            if (!smt) {
+              play("hit");
+              smt = true;
+            }
+            gotobtnrect.color = rgb(43, 43, 43);
+          } else {
+            gotobtnrect.color = rgb(64, 64, 64);
+            smt = false;
+          }
+        });
+      }, "c");
+    }));
+  }
+  __name(Loadlvl1, "Loadlvl1");
+  var lvl1_default = Loadlvl1;
+
   // code/tutorial.js
   function LoadTutorial() {
     scene("tutorial", () => __async(this, null, function* () {
@@ -3942,21 +4049,22 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       inspectt();
       const lines = [
         "Welcome to the Tutorial! Press C to continue...",
-        "Do it again :D                                 ",
-        "Fun, right? Hehe..                             ",
-        "Do it one more time!                           ",
-        "Okay... that's enough.                         ",
-        "Stop!                                          ",
-        "HEY! Stop scrolling!                           ",
-        "Okay... that's now enough.                     ",
-        "...                                            ",
-        "Okay, lemme just tell you about the game.      ",
-        "It's about you, the potato.                    ",
-        "Your goal is to take over mars!                ",
-        "But... that's not easy.                        ",
-        "You have to do lots of task's                  ",
-        "The controls are W/Space, A, S, D              ",
-        "Now, have fun playing! :D                      "
+        "Do it again :D",
+        "Fun, right? Hehe..",
+        "Do it one more time!",
+        "Okay... that's enough.",
+        "Stop!",
+        "HEY! Stop scrolling!",
+        "Okay... that's now enough.",
+        "...",
+        "Okay, lemme just tell you about the game.",
+        "It's about you, the potato.",
+        "Because the moon is already explored and boring...",
+        "Your goal is to take over mars!",
+        "But... that's not easy.",
+        "You have to do lots of task's",
+        "The controls are W/Space, A, S, D",
+        "Now, have fun playing! :D"
       ];
       yield displayDialogue(lines, () => {
         herebgmusic.stop();
@@ -4036,9 +4144,10 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   CheckWindowSize_default();
   spritemanager_default();
   lvl0_default();
+  lvl1_default();
   tutorial_default();
   menu_default();
   EnableAudio_default();
-  go("lvl0");
+  go("EnableAudio");
 })();
 //# sourceMappingURL=game.js.map

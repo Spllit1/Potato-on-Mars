@@ -57,8 +57,10 @@ export async function displayDialogue(lines, onDialogueEnd = () => {}, controlKe
       const lineAsCharArray = (lines[currentLineIndex]).split("")
       for (const [i, char] of lineAsCharArray.entries()) {
         await delay(isKeyDown(controlKey) || isMouseDown() ? 0 : 50)
+        play("score", {
+          volume: RandNum(0.2, 0.3)
+        })
         dialogueBoxContainer.children[1].text += char
-  
         if (i >= lineAsCharArray.length - 1) {
           lineIsFullyDisplayed = true
         }

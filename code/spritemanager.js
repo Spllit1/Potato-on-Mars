@@ -6,9 +6,19 @@ function loadd(name){
 
 function LoadAssets(){
   const Pngs = ["bean", "moon", "mars", "logo", "tlc", "sign", "sun"]
+
+  
+  loadSound("lvl1bg", "sounds/lvl1bg.mp3");
+  loadSound("lvl0bg", "sounds/lvl0bg.mp3");
+
+  
+  loadSound("landing", "sounds/landing.mp3");
   for(let i =0; i < Pngs.length; i++){
     loadd(Pngs[i])
   }
+
+  
+  loadSound("score", "sounds/score.mp3");
 
   loadSprite("rocket", "sprites/rocket-Sheet.png", {
     sliceX: 8,

@@ -3,6 +3,11 @@ import * as pf from "./pfuncs.js"
 
 function LoadLvl0(){
   scene("lvl0", async ()=>{
+    const backmsc = play("lvl0bg", {
+      volume: 0.2,
+      loop: true
+    })
+    backmsc.play()
     const pSPEED = 300
     pf.inspectt()
     gravity(1800)
@@ -24,11 +29,13 @@ function LoadLvl0(){
     onKeyDown("space", ()=>{
       if(player.isGrounded()){
         player.jump(pSPEED*3)
+        play("score")
       }
     })
     onKeyDown("w", ()=>{
       if(player.isGrounded()){
         player.jump(pSPEED*3)
+        play("score")
       }
     })
     onKeyDown("a", ()=>{
@@ -100,6 +107,13 @@ function LoadLvl0(){
     let spawned = false
     // when colliding with sign
     player.onCollide("Sign", async()=>{
+      wait(30, ()=>{
+        add([
+          text("Hint: Try to jump in the rocket! (Space)"),
+          pos(width()/2, 200),
+          anchor("center")
+        ])
+      })
       await pf.displayDialogue(lines, () => {
         if(!spawned){
           const falli = add([
@@ -125,10 +139,14 @@ function LoadLvl0(){
           })
           // checking if our rocket can start or not...
           player.onCollide("Hitbox1", ()=>{
-            go("lvl1")
+            backmsc.stop()
+            go("lvl1intro")
           })
 
           // here we animate the rocket :D
+          wait(1, ()=>{
+            play("landing")
+          })
           tween(falli.pos.y, height()-620, 6, (val) => falli.pos.y = val, easings.easeOutSine)
           
           let playing1 = false

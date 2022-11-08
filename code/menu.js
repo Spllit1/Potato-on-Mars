@@ -136,6 +136,12 @@ function LoadMenuScene() {
       scale(1.3, 1.3),
       z(100)
     ])
+
+    btnbg2.onClick(()=>{
+      music.stop()
+      go("lvl0")
+    })
+    
     btnbg2.onUpdate(() => {
 	  	if (btnbg2.isHovering()) {
         if(!bg2hover){
