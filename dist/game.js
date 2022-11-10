@@ -3718,7 +3718,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   }
   __name(loadd, "loadd");
   function LoadAssets() {
-    const Pngs = ["bean", "moon", "mars", "logo", "tlc", "sign", "sun"];
+    const Pngs = ["bean", "moon", "mars", "logo", "tlc", "sign", "sun", "middle", "grass"];
     loadSound("lvl1bg", "sounds/lvl1bg.mp3");
     loadSound("lvl0bg", "sounds/lvl0bg.mp3");
     loadSound("landing", "sounds/landing.mp3");
@@ -4034,6 +4034,70 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         });
       }, "c");
     }));
+    scene("lvl1", () => {
+      inspectt();
+      gravity(1200);
+      const pSPEED = 300;
+      add([
+        text("level1")
+      ]);
+      const lvl = [
+        [
+          "=============================================",
+          "                                             ",
+          "                                             ",
+          "                                             ",
+          "                                             ",
+          "      ===========                            ",
+          "                                             ",
+          "                                             ",
+          "                     ==                      ",
+          "                                        =====",
+          "============================================="
+        ]
+      ];
+      const level = addLevel(lvl[0], {
+        width: 64,
+        height: 64,
+        pos: vec2(100, 200),
+        "=": () => [
+          sprite("middle"),
+          area({
+            isStatic: true
+          }),
+          anchor("bot"),
+          body({ isStatic: true })
+        ]
+      });
+      const player = add([
+        sprite("potato"),
+        pos(80, height() - 250),
+        area(),
+        scale(2, 2),
+        body(),
+        z(100)
+      ]);
+      onKeyDown("d", () => {
+        player.flipX(true);
+        player.move(pSPEED, 0);
+      });
+      onKeyDown("space", () => {
+        if (player.isGrounded()) {
+          player.jump(pSPEED * 3);
+          play("score");
+        }
+      });
+      onKeyDown("w", () => {
+        if (player.isGrounded()) {
+          player.jump(pSPEED * 3);
+          play("score");
+        }
+      });
+      onKeyDown("a", () => {
+        player.flipX(false);
+        player.move(-pSPEED, 0);
+      });
+    });
   }
   __name(Loadlvl1, "Loadlvl1");
   var lvl1_default = Loadlvl1;
@@ -4148,6 +4212,6 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   tutorial_default();
   menu_default();
   EnableAudio_default();
-  go("EnableAudio");
+  go("lvl1");
 })();
 //# sourceMappingURL=game.js.map

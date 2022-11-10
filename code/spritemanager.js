@@ -5,7 +5,7 @@ function loadd(name){
 }
 
 function LoadAssets(){
-  const Pngs = ["bean", "moon", "mars", "logo", "tlc", "sign", "sun"]
+  const Pngs = ["bean", "moon", "mars", "logo", "tlc", "sign", "sun", "middle", "grass"]
 
   
   loadSound("lvl1bg", "sounds/lvl1bg.mp3");

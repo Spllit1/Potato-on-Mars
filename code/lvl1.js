@@ -26,9 +26,6 @@ function Loadlvl1(){
         }
       })
     }
-
-    
-
     const wigrock = add([
       sprite("rocket"),
       pos(width()/2, height()/2-100),
@@ -88,9 +85,85 @@ function Loadlvl1(){
     },'c')
   })
 
+
   // And this is the real lvl1! -----------------------------------------------------------------------------
+  scene("lvl1", ()=>{
+    pf.inspectt()
+
+    // sets gravity
+    gravity(1200)
+
+    // Player speed
+    const pSPEED = 300
+
+    add([
+      text("level1")
+    ])
+    const lvl = [
+	    [
+	    	"=============================================",
+        "                                             ",
+	    	"                                             ",
+	    	"                                             ",
+	    	"                                             ",
+	    	"      ===========                            ",
+	    	"                                             ",
+	    	"                                             ",
+	    	"                     ==                      ",
+	    	"                                        =====",
+	    	"=============================================",
+	    ]
+    ]
+
+    const level = addLevel(lvl[0], {
+    	width: 64,
+    	height: 64,
+    	pos: vec2(100, 200),
+    	"=": () => [
+    		sprite("middle"),
+    		area({
+          isStatic: true
+        }),
+    		anchor("bot"),
+        body({isStatic: true})
+    	],
+    })
+
+    // For the player some things here...
+    const player = add([
+      sprite("potato"),
+      pos(80, height()-250),
+      area(),
+      scale(2, 2),
+      body(),
+      z(100)
+    ])
+    onKeyDown("d", ()=>{
+      player.flipX(true)
+      player.move(pSPEED, 0)
+    })
+    onKeyDown("space", ()=>{
+      if(player.isGrounded()){
+        player.jump(pSPEED*3)
+        play("score")
+      }
+    })
+    onKeyDown("w", ()=>{
+      if(player.isGrounded()){
+        player.jump(pSPEED*3)
+        play("score")
+      }
+    })
+    onKeyDown("a", ()=>{
+      player.flipX(false)
+      player.move(-pSPEED, 0)
+    })
+
+    // Defines camera position to player position
+    
 
 
-  
+//////////////////////////////////////////////////////////////////////////////////////////////////////// 
+  })
 }
 export default Loadlvl1

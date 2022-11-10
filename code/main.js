@@ -37,4 +37,4 @@ LoadEnableAudio()
 
 
 // Starting the game ---------------------------------------------------------------------
-go("EnableAudio")
+go("lvl1")
